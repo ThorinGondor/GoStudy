@@ -25,6 +25,7 @@ func main() {
 		fmt.Println("case 3")
 	}
 
+	// switch 语句还可以被用于 type-switch 来判断某个 interface 变量中实际指向的变量类型
 	var itf interface{}
 	switch variable := itf.(type) {
 	case int8:
