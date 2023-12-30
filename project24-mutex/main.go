@@ -1,6 +1,9 @@
 package main
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+)
 
 func main() {
 
@@ -18,6 +21,7 @@ func main() {
 			for j := 0; j < 10000; j++ {
 				count++
 			}
+			fmt.Println(count)
 			mu.Unlock()
 		}()
 	}

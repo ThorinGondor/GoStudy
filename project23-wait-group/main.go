@@ -9,17 +9,19 @@ import (
 func main() {
 	var wg sync.WaitGroup // 实现同步等待
 	var urls = []string{
-		"https://www.golang.org/",
+		"https://www.baidu.com/",
 		"https://www.google.com/",
 	}
 	for _, url := range urls {
 		wg.Add(1)             // 添加/减少 goroutine 的数量，正数添加，负数减少
 		go func(url string) { // 开启一个协程
 			defer wg.Done() // 相当于 Add(-1)
-			_, err := http.Get(url)
+			resp, err := http.Get(url)
 			if err != nil {
 				fmt.Println(err)
 				return
+			} else {
+				fmt.Println(resp)
 			}
 		}(url)
 	}

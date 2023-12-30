@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"sync"
 	"time"
 )
@@ -15,12 +14,12 @@ import (
 裁判员会等待运动员都准备好。虽然每个运动员准备好之后都唤醒了裁判员，但是裁判员被唤醒之后需要检查等待条件是否满足（运动员都准备好了）。可以看到，裁判员被唤醒之后一定要检查等待条件，如果条件不满足还是要继续等待。
 */
 func main() {
-	var condition sync.Cond
+	var condition = sync.NewCond(&sync.Mutex{})
 	var readyNumber = 0
 
 	for i := 0; i < 10; i++ {
 		go func(seq int) {
-			time.Sleep(time.Duration(rand.Int63()) * time.Second)
+			time.Sleep(1000)
 
 			// 加锁更改临界变量
 			condition.L.Lock()
@@ -28,7 +27,7 @@ func main() {
 			condition.L.Unlock()
 			fmt.Printf("运动员 %v 已就绪\n", seq)
 
-			// 广播唤醒所有的等待者，此时就会进入到 condition 的判断 goto line 38
+			// 广播唤醒所有的等待者，此时就会进入到 condition 的判断 line 36: for readyNumber != 10
 			condition.Broadcast()
 		}(i)
 	}
