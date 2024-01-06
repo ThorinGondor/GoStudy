@@ -7,10 +7,11 @@ import (
 )
 
 func main() {
-	var wg sync.WaitGroup // 实现同步等待
+	// WaitGroup 实现同步等待
+	var wg = sync.WaitGroup{} // WaitGroup 必须使用 值类型，否则容易出现死锁
 	var urls = []string{
 		"https://www.baidu.com/",
-		"https://www.google.com/",
+		"https://www.bilibili.com/",
 	}
 	for _, url := range urls {
 		wg.Add(1)             // 添加/减少 goroutine 的数量，正数添加，负数减少
